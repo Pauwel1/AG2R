@@ -23,7 +23,7 @@ def getDirection(driver):
     return priceTrend
 
 def getYield(driver):
-    yieldOneYear = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[7].text
-    print(yieldOneYear)
+    yieldOneYear = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[7].text.strip("%")
+    return yieldOneYear
 
     
