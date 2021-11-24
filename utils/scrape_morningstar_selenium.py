@@ -12,7 +12,9 @@ def getPriceVar(driver):
     priceVar = priceVar[0].text
     priceVar = re.findall("\d*\.?\d+", priceVar)
     priceVar = list(map(float, priceVar))
-    return priceVar
+    varVal = priceVar[0]
+    varPerc = priceVar[1]
+    return varVal, varPerc
 
 def getDirection(driver):
     direction = driver.find_elements(By.XPATH, '//span[@data-mds-icon-name="ip-performance-arrow-down"]')
