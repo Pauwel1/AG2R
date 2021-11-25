@@ -62,7 +62,7 @@ def iterateInvestments(excelFile: str):
             df["difference1day (valuta)"].to_frame().style.applymap("color:red;")
             df["difference1day (%)"].to_frame().style.applymap("color:red;")
 
-    df.drop(["fluctuation"])
+    df.drop(["fluctuation"], axis = 1)
 
     df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
 
