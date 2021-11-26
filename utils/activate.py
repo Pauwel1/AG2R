@@ -66,4 +66,20 @@ def iterateInvestments(excelFile: str):
     return df
 
 def singleInvestment(ISIN: str):
+    chrome_options = webdriver.ChromeOptions()
+    chrome_options.add_argument("--incognito")
+    driver = webdriver.Chrome(options = chrome_options)
+
     url = "https://www.morningstar.com/search?query=" + ISIN
+
+    driver.get(url)
+
+    try:
+        driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
+        time.sleep(5)
+        driver.current_url
+        price, varVal, varPerc, direction, yearRange = getData(driver)
+    except NoSuchElementException or InvalidArgumentException:
+        price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+    
+    return price, varVal, varPerc, direction, yearRange
