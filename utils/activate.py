@@ -56,23 +56,14 @@ def iterateInvestments(excelFile: str):
     df["difference1day (%)"] = inPercent
     df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
-    
-    for fluct in df["fluctuation"]:
-        if fluct == "Down":
-            df["difference1day (valuta)"].to_frame().style.applymap("color:red;")
-            df["difference1day (%)"].to_frame().style.applymap("color:red;")
-
-    df.drop(["fluctuation"], axis = 1)
 
     df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
-
+    
     t2 = time.process_time()
     print("Process time = ", t2-t1)
 
     driver.close()
+    return df
 
 def singleInvestment(ISIN: str):
     url = "https://www.morningstar.com/search?query=" + ISIN
-
-excelFile = "C:/Users/pdewilde/Documents/Projects/AG2R/assets/data.xlsx"
-iterateInvestments(excelFile)
