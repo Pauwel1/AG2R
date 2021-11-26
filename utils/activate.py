@@ -1,4 +1,4 @@
-from scrape_morningstar_selenium import getPrices, getPriceVar, getDirection, getYearRange
+from utils.scrape_morningstar_selenium import getPrices, getPriceVar, getDirection, getYearRange
 
 from selenium import webdriver
 from selenium.common.exceptions import NoSuchElementException, InvalidArgumentException
