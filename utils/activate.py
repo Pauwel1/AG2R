@@ -51,18 +51,20 @@ def iterateInvestments(excelFile: str):
         upOrDown.append(direction)
         afterYear.append(yearRange)
 
+    driver.close()
+
     df["price"] = priceNow
     df["difference1day (valuta)"] = inValuta
     df["difference1day (%)"] = inPercent
     df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
+    df.set_index("ISIN", inplace = True)
 
     df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
     
     t2 = time.process_time()
     print("Process time = ", t2-t1)
 
-    driver.close()
     return df
 
 def singleInvestment(ISIN: str):
@@ -90,7 +92,7 @@ def singleInvestment(ISIN: str):
         price, varVal, varPerc, direction, yearRange = getData(driver)
         dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
     except NoSuchElementException:
-        price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+        price, varVal, varPerc, direction, yearRange, dénomination = "Check manually", "Check manually", "Check manually", "Check manually", "check manually", "check manually"
     except InvalidArgumentException:
         price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
         dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
@@ -103,6 +105,8 @@ def singleInvestment(ISIN: str):
     afterYear.append(yearRange)
     number = [ISIN]
 
+    driver.close()
+
     df["ISIN"] = number
     df["Dénomination"] = name
     df["price"] = priceNow 
@@ -110,9 +114,10 @@ def singleInvestment(ISIN: str):
     df["difference1day (%)"] = inPercent
     df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
+    df.set_index("ISIN", inplace = True)
 
-    # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
-    
-    driver.close()
-    print(df)
     return df
+
+
+# file = "C:/Users/pdewilde/Documents/Projects/AG2R/assets/data.xlsx"
+# iterateInvestments(file)
