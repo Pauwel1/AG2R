@@ -58,9 +58,9 @@ def iterateInvestments(excelFile: str):
     df["difference1day (%)"] = inPercent
     df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
-    df.set_index("ISIN", inplace = True)
+    df.set_index("ISIN", inplace = False)
 
-    df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
+    # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
     
     t2 = time.process_time()
     print("Process time = ", t2-t1)
