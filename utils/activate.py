@@ -74,12 +74,45 @@ def singleInvestment(ISIN: str):
 
     driver.get(url)
 
+    df = pd.DataFrame()
+    
+    name = []
+    priceNow = []
+    upOrDown = []
+    inValuta = []
+    inPercent = []
+    afterYear = []
+
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
         time.sleep(5)
         driver.current_url
         price, varVal, varPerc, direction, yearRange = getData(driver)
-    except NoSuchElementException or InvalidArgumentException:
+        dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
+    except NoSuchElementException:
         price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+    except InvalidArgumentException:
+        price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+        dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
+
+    name.append(dénomination)
+    priceNow.append(price)
+    inValuta.append(varVal)
+    inPercent.append(varPerc)
+    upOrDown.append(direction)
+    afterYear.append(yearRange)
+    number = [ISIN]
+
+    df["ISIN"] = number
+    df["Dénomination"] = name
+    df["price"] = priceNow 
+    df["difference1day (valuta)"] = inValuta
+    df["difference1day (%)"] = inPercent
+    df["fluctuation"] = upOrDown
+    df["range (1 year)"] = afterYear
+
+    # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
     
-    return price, varVal, varPerc, direction, yearRange
+    driver.close()
+    print(df)
+    return df
