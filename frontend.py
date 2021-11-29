@@ -1,8 +1,10 @@
 import streamlit as st
+from st_aggrid import AgGrid
 import pandas as pd
 import plotly.express as px
 
 from utils.activate import iterateInvestments, singleInvestment
+from utils.manipulate_df import style_df
 
 st.set_page_config(page_title='Performance checker')
 st.title('Stock performance checker 📈')
@@ -12,10 +14,12 @@ uploaded_file = st.file_uploader('Choose an XLSX file', type='xlsx')
 if uploaded_file:
     st.markdown('---')
     df = iterateInvestments(uploaded_file)
-    
-    df = df.dtypes.astype(str)
 
-    st.dataframe(df)
+    # df = df.style.applymap(style_df, props='color:red;')
+    
+    AgGrid(df, height=500, fit_columns_on_grid_load=True)
+
+
     # groupby_column = st.selectbox(
     #     'What would you like to analyse?',
     #     ('price', 'difference1day (valuta)', 'difference1day (%)', 'range (1 year)'),
