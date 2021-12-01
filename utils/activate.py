@@ -23,7 +23,6 @@ def iterateInvestments(excelFile: str):
     df = pd.read_excel(excelFile)
 
     priceNow = []
-    upOrDown = []
     inValuta = []
     inPercent = []
     afterYear = []
@@ -42,13 +41,15 @@ def iterateInvestments(excelFile: str):
             time.sleep(5)
             driver.current_url
             price, varVal, varPerc, direction, yearRange = getData(driver)
+            if direction == "Down":
+                varVal *= -1
+                varPerc *= -1
         except NoSuchElementException or InvalidArgumentException:
-            price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+            price, varVal, varPerc, yearRange = "Check manually", "Check manually", "Check manually", "check manually"
 
         priceNow.append(price)
         inValuta.append(varVal)
         inPercent.append(varPerc)
-        upOrDown.append(direction)
         afterYear.append(yearRange)
 
     driver.close()
@@ -56,7 +57,6 @@ def iterateInvestments(excelFile: str):
     df["price"] = priceNow
     df["difference1day (valuta)"] = inValuta
     df["difference1day (%)"] = inPercent
-    df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
     df.set_index("ISIN", inplace = False)
 
@@ -80,7 +80,6 @@ def singleInvestment(ISIN: str):
     
     name = []
     priceNow = []
-    upOrDown = []
     inValuta = []
     inPercent = []
     afterYear = []
@@ -91,17 +90,19 @@ def singleInvestment(ISIN: str):
         driver.current_url
         price, varVal, varPerc, direction, yearRange = getData(driver)
         dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
+        if direction == "Down":
+            varVal *= -1
+            varPerc *= -1
     except NoSuchElementException:
-        price, varVal, varPerc, direction, yearRange, dénomination = "Check manually", "Check manually", "Check manually", "Check manually", "check manually", "check manually"
+        price, varVal, varPerc, yearRange, dénomination = "Check manually", "Check manually", "Check manually", "check manually", "check manually"
     except InvalidArgumentException:
-        price, varVal, varPerc, direction, yearRange = "Check manually", "Check manually", "Check manually", "Check manually", "check manually"
+        price, varVal, varPerc, yearRange = "Check manually", "Check manually", "Check manually", "check manually"
         dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
 
     name.append(dénomination)
     priceNow.append(price)
     inValuta.append(varVal)
     inPercent.append(varPerc)
-    upOrDown.append(direction)
     afterYear.append(yearRange)
     number = [ISIN]
 
@@ -112,12 +113,7 @@ def singleInvestment(ISIN: str):
     df["price"] = priceNow 
     df["difference1day (valuta)"] = inValuta
     df["difference1day (%)"] = inPercent
-    df["fluctuation"] = upOrDown
     df["range (1 year)"] = afterYear
     df.set_index("ISIN", inplace = True)
 
     return df
-
-
-# file = "C:/Users/pdewilde/Documents/Projects/AG2R/assets/data.xlsx"
-# iterateInvestments(file)
