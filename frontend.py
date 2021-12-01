@@ -4,7 +4,6 @@ import pandas as pd
 import plotly.express as px
 
 from utils.activate import iterateInvestments, singleInvestment
-from utils.manipulate_df import style_df
 
 st.set_page_config(page_title='Performance checker')
 st.title('Stock performance checker 📈')
