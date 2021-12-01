@@ -44,6 +44,9 @@ def iterateInvestments(excelFile: str):
             if direction == "Down":
                 varVal *= -1
                 varPerc *= -1
+            yearRange = yearRange.split()
+            yearRange = float(yearRange[2]) - float(yearRange[0])
+            yearRange = round(yearRange, 2)
         except NoSuchElementException or InvalidArgumentException:
             price, varVal, varPerc, yearRange = "Check manually", "Check manually", "Check manually", "check manually"
 
