@@ -19,7 +19,7 @@ def iterateInvestments(excelFile: str):
     chrome_options.add_argument("--incognito")
     driver = webdriver.Chrome(options = chrome_options)
 
-    t1 = time.process_time()
+    t1 = time.perf_counter()
     df = pd.read_excel(excelFile)
 
     priceNow = []
@@ -60,12 +60,12 @@ def iterateInvestments(excelFile: str):
     df["price"] = priceNow
     df["difference1day (valuta)"] = inValuta
     df["difference1day (%)"] = inPercent
-    df["range (1 year)"] = afterYear
+    df["range (valuta; 1 year)"] = afterYear
     df.set_index("ISIN", inplace = False)
 
     # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
     
-    t2 = time.process_time()
+    t2 = time.perf_counter()
     print("Process time = ", t2-t1)
 
     return df
@@ -116,7 +116,7 @@ def singleInvestment(ISIN: str):
     df["price"] = priceNow 
     df["difference1day (valuta)"] = inValuta
     df["difference1day (%)"] = inPercent
-    df["range (1 year)"] = afterYear
+    df["range (valuta; 1 year)"] = afterYear
     df.set_index("ISIN", inplace = True)
 
     return df

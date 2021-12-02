@@ -11,9 +11,7 @@ st.subheader('Feed me your Excel file')
 
 uploaded_file = st.file_uploader('Choose an XLSX file', type='xlsx')
 if uploaded_file:
-    st.markdown('---')
     df = iterateInvestments(uploaded_file)
-    
     AgGrid(df, height = 500, fit_columns_on_grid_load = True)
 
 upload_ISIN = st.text_input("Insert ISIN")
