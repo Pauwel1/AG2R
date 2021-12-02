@@ -1,5 +1,4 @@
 from selenium import webdriver
-import pandas as pd
 import time
 from selenium.common.exceptions import NoSuchElementException, InvalidArgumentException
 from selenium.webdriver.common.by import By
@@ -27,7 +26,7 @@ def scraping(url):
 
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
-        time.sleep(8)
+        time.sleep(10)
         driver.current_url
         price, varVal, varPerc, direction, yearRange = getData(driver)
         if direction == "Down":
@@ -54,9 +53,19 @@ def getData(driver):
 
 def setupThreads(urls):
     with ThreadPoolExecutor(max_workers=5) as executor:
-        res = executor.map(scraping, urls)
-        price = res[0]
-        varVal = res[1]
-        varPerc = res[2]
-        yearRange = res[3]
-    return price, varVal, varPerc, yearRange
+        res = list(executor.map(scraping, urls))
+        print(res)
+        
+        priceNow = []
+        inValuta = []
+        inPercent = []
+        afterYear = []
+
+        for i in res:
+            priceNow.append(i[0])
+            inValuta.append(i[1])
+            inPercent.append(i[2])
+            afterYear.append(i[3])
+        print(priceNow)
+
+    return priceNow, inValuta, inPercent, afterYear

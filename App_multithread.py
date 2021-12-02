@@ -14,24 +14,14 @@ uploadedFile = st.file_uploader('Choose an XLSX file', type='xlsx')
 if uploadedFile:
     t1 = time.perf_counter()
 
-    priceNow = []
-    inValuta = []
-    inPercent = []
-    afterYear = []
-
     df = pd.read_excel(uploadedFile)
     urls = getUrls(df)
     price, varVal, varPerc, yearRange = setupThreads(urls)
-    
-    priceNow.append(price)
-    inValuta.append(varVal)
-    inPercent.append(varPerc)
-    afterYear.append(yearRange)
 
-    df["price"] = priceNow
-    df["difference1day (valuta)"] = inValuta
-    df["difference1day (%)"] = inPercent
-    df["range (valuta; 1 year)"] = afterYear
+    df["price"] = price
+    df["difference1day (valuta)"] = varVal
+    df["difference1day (%)"] = varPerc
+    df["range (valuta; 1 year)"] = yearRange
     df.set_index("ISIN", inplace = False)
 
     t2 = time.perf_counter()
