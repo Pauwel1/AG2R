@@ -21,12 +21,13 @@ def getUrls(df):
     return urls
 
 def scraping(url):
+    print(url)
     driver = startDriver()
     driver.get(url)
 
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
-        time.sleep(10)
+        time.sleep(15)
         driver.current_url
         price, varVal, varPerc, direction, yearRange = getData(driver)
         if direction == "Down":
@@ -54,7 +55,6 @@ def getData(driver):
 def setupThreads(urls):
     with ThreadPoolExecutor(max_workers=5) as executor:
         res = list(executor.map(scraping, urls))
-        print(res)
         
         priceNow = []
         inValuta = []
@@ -66,6 +66,6 @@ def setupThreads(urls):
             inValuta.append(i[1])
             inPercent.append(i[2])
             afterYear.append(i[3])
-        print(priceNow)
+        print(len(priceNow))
 
     return priceNow, inValuta, inPercent, afterYear

@@ -27,4 +27,4 @@ if uploadedFile:
     t2 = time.perf_counter()
     print("Process time = ", t2-t1)
 
-    AgGrid(df, height = 75, fit_columns_on_grid_load = True)
+    AgGrid(df, height = 750, fit_columns_on_grid_load = True)
