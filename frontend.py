@@ -1,9 +1,8 @@
 import streamlit as st
 from st_aggrid import AgGrid
-import pandas as pd
-import plotly.express as px
 
 from utils.activate import iterateInvestments, singleInvestment
+
 
 st.set_page_config(page_title='Performance checker')
 st.title('Stock performance checker 📈')
