@@ -17,12 +17,12 @@ if uploadedFile:
 
     df = pd.read_excel(uploadedFile)
     urls = getUrls(df)
-    price, varVal, varPerc, yearRange = setupThreads(urls)
+    price, varVal, varPerc = setupThreads(urls)
 
     df["price"] = price
     df["difference1day (valuta)"] = varVal
     df["difference1day (%)"] = varPerc
-    df["range (valuta; 1 year)"] = yearRange
+    # df["range (valuta; 1 year)"] = yearRange
     df.set_index("ISIN", inplace = False)
 
     t2 = time.perf_counter()

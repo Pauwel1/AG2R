@@ -5,7 +5,7 @@ from selenium.webdriver.common.by import By
 from concurrent.futures import ThreadPoolExecutor
 import streamlit as st
 
-from utils.scrape_morningstar_selenium import getPrices, getPriceVar, getDirection, getYearRange
+from utils.scrape_morningstar_selenium import getPrices, getPriceVar, getDirection
 
 
 def startDriver():
@@ -30,28 +30,25 @@ def scraping(url):
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
         time.sleep(15)
         driver.current_url
-        price, varVal, varPerc, direction, yearRange = getData(driver)
+        price, varVal, varPerc, direction = getData(driver)
         if direction == "Down":
             varVal *= -1
             varPerc *= -1
-        # yearRange = yearRange.split()
-        # yearRange = float(yearRange[2]) - float(yearRange[0])
-        # yearRange = round(yearRange, 2)
     except NoSuchElementException or InvalidArgumentException:
-        price, varVal, varPerc, yearRange = "Check manually", "Check manually", "Check manually", "check manually"
+        price, varVal, varPerc = "Check manually", "Check manually", "check manually"
 
     # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
 
     driver.close()
 
-    return price, varVal, varPerc, yearRange
+    return price, varVal, varPerc
     
 def getData(driver):
     price = getPrices(driver)
     varVal, varPerc = getPriceVar(driver)
     direction = getDirection(driver)
-    yieldPerYear = getYearRange(driver)
-    return price, varVal, varPerc, direction, yieldPerYear
+    # yieldPerYear = getYearRange(driver)
+    return price, varVal, varPerc, direction
 
 @st.cache
 def setupThreads(urls):
@@ -61,13 +58,13 @@ def setupThreads(urls):
         priceNow = []
         inValuta = []
         inPercent = []
-        afterYear = []
+        # afterYear = []
 
         for i in res:
             priceNow.append(i[0])
             inValuta.append(i[1])
             inPercent.append(i[2])
-            afterYear.append(i[3])
+            # afterYear.append(i[3])
         print(len(priceNow))
 
-    return priceNow, inValuta, inPercent, afterYear
+    return priceNow, inValuta, inPercent
