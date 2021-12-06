@@ -1,7 +1,7 @@
 import streamlit as st
 from st_aggrid import AgGrid
 
-from utils.activate import iterateInvestments, singleInvestment
+from utils.activate_single_input import iterateInvestments, singleInvestment
 
 
 st.set_page_config(page_title='Performance checker')

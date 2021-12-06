@@ -4,7 +4,8 @@ from st_aggrid import AgGrid
 import pandas as pd
 
 from utils.activate_multithread import getUrls, setupThreads
-from utils.activate import singleInvestment
+from utils.activate_single_input import singleInvestment
+from utils.download_button import generate_excel_download_link
 
 
 st.set_page_config(page_title='Performance checker')
@@ -29,6 +30,9 @@ if uploadedFile:
     print("Process time = ", t2-t1)
 
     AgGrid(df, height = 350, fit_columns_on_grid_load = True)
+
+    st.subheader('Downloads:')
+    generate_excel_download_link(df)
 
 upload_ISIN = st.text_input("Insert ISIN")
 if upload_ISIN:
