@@ -28,8 +28,8 @@ def scraping(url):
 
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
-        time.sleep(10)
         driver.current_url
+        time.sleep(5)
         price, varVal, varPerc, direction = getData(driver)
         if direction == "Down":
             varVal *= -1
@@ -52,7 +52,7 @@ def getData(driver):
 
 @st.cache
 def setupThreads(urls):
-    with ThreadPoolExecutor(max_workers = 5) as executor:
+    with ThreadPoolExecutor(max_workers = 10) as executor:
         res = list(executor.map(scraping, urls))
         
         priceNow = []
