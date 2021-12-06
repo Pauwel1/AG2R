@@ -5,6 +5,7 @@ from selenium.common.exceptions import NoSuchElementException, InvalidArgumentEx
 from selenium.webdriver.common.by import By
 import time
 import pandas as pd
+import streamlit as st
 
 
 def getData(driver):
@@ -14,6 +15,7 @@ def getData(driver):
     yieldPerYear = getYearRange(driver)
     return price, varVal, varPerc, direction, yieldPerYear
 
+@st.cache
 def iterateInvestments(excelFile: str):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--incognito")
@@ -70,6 +72,7 @@ def iterateInvestments(excelFile: str):
 
     return df
 
+@st.cache
 def singleInvestment(ISIN: str):
     chrome_options = webdriver.ChromeOptions()
     chrome_options.add_argument("--incognito")

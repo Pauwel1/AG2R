@@ -32,8 +32,8 @@ def getDirection(driver):
     return priceTrend
 
 def getYearRange(driver):
-    try:
-        yearRange = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[5].text
-    except IndexError:
-        yearRange = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[6].text
+    # try:
+    yearRange = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[5].text
+    # except IndexError:
+    #     yearRange = driver.find_elements(By.CLASS_NAME, "sal-dp-value")[6].text
     return yearRange

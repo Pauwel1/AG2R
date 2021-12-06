@@ -3,6 +3,7 @@ import time
 from selenium.common.exceptions import NoSuchElementException, InvalidArgumentException
 from selenium.webdriver.common.by import By
 from concurrent.futures import ThreadPoolExecutor
+import streamlit as st
 
 from utils.scrape_morningstar_selenium import getPrices, getPriceVar, getDirection, getYearRange
 
@@ -52,8 +53,9 @@ def getData(driver):
     yieldPerYear = getYearRange(driver)
     return price, varVal, varPerc, direction, yieldPerYear
 
+@st.cache
 def setupThreads(urls):
-    with ThreadPoolExecutor(max_workers=5) as executor:
+    with ThreadPoolExecutor(max_workers = 5) as executor:
         res = list(executor.map(scraping, urls))
         
         priceNow = []

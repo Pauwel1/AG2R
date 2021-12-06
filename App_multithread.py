@@ -4,6 +4,7 @@ from st_aggrid import AgGrid
 import pandas as pd
 
 from utils.activate_multithread import getUrls, setupThreads
+from utils.activate import singleInvestment
 
 
 st.set_page_config(page_title='Performance checker')
@@ -27,4 +28,9 @@ if uploadedFile:
     t2 = time.perf_counter()
     print("Process time = ", t2-t1)
 
-    AgGrid(df, height = 750, fit_columns_on_grid_load = True)
+    AgGrid(df, height = 350, fit_columns_on_grid_load = True)
+
+upload_ISIN = st.text_input("Insert ISIN")
+if upload_ISIN:
+    df = singleInvestment(upload_ISIN)
+    AgGrid(df, height = 75, fit_columns_on_grid_load = True)
