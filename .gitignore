@@ -115,5 +115,5 @@ dmypy.json
 
 
 # project-specific
-.code-workspace
+*.code-workspace
 .docx
