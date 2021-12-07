@@ -3,8 +3,7 @@ import time
 from st_aggrid import AgGrid
 import pandas as pd
 
-from utils.activate_multithread import getUrls, setupThreads
-from utils.activate_single_input import singleInvestment
+from utils.activate_multithread import getUrls, setupThreads, singleInvestment
 from utils.download_button import generate_excel_download_link
 
 
