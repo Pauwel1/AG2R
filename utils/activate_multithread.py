@@ -30,7 +30,7 @@ def scraping(url):
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
         driver.current_url
-        time.sleep(5)
+        time.sleep(7)
         price, varVal, varPerc, direction = getData(driver)
         if direction == "Down":
             varVal *= -1
