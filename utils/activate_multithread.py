@@ -1,4 +1,5 @@
 from selenium import webdriver
+
 import time
 from selenium.common.exceptions import NoSuchElementException, InvalidArgumentException
 from selenium.webdriver.common.by import By
@@ -53,7 +54,7 @@ def getData(driver):
 
 @st.cache
 def setupThreads(urls):
-    with ThreadPoolExecutor(max_workers = 5) as executor:
+    with ThreadPoolExecutor(max_workers = 10) as executor:
         res = list(executor.map(scraping, urls))
         
         priceNow = []
