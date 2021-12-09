@@ -30,15 +30,14 @@ def scraping(url):
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
         driver.current_url
-        time.sleep(7)
+        time.sleep(5)
         price, varVal, varPerc, direction = getData(driver)
         if direction == "Down":
             varVal *= -1
             varPerc *= -1
-    except NoSuchElementException or InvalidArgumentException:
-        price, varVal, varPerc = "Check manually", "Check manually", "check manually"
 
-    # df.to_excel('/Users/pdewilde/Documents/Projects/AG2R/assets/dataScraped.xlsx', index = True, header = True)
+    except NoSuchElementException or InvalidArgumentException:
+            price, varVal, varPerc = "Check manually", "Check manually", "check manually"
 
     driver.close()
 
@@ -87,8 +86,8 @@ def singleInvestment(ISIN: str):
 
     try:
         driver.find_element(By.XPATH, "//section/div[2]/a[@data-v-5db0bc77]").click()
-        time.sleep(5)
         driver.current_url
+        time.sleep(5)
         price, varVal, varPerc, direction = getData(driver)
         dénomination = driver.find_elements(By.XPATH, "//span[@itemprop]")[0].text
         if direction == "Down":
